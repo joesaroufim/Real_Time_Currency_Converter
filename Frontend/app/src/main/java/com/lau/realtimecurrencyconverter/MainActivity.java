@@ -11,9 +11,9 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     EditText input;
-    TextView result;
-    double  amount,rate, result_amount;
-    String amount_str;
+    TextView result, error;
+    double rate, input_value, converted_value;
+    String input_str;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,21 +22,36 @@ public class MainActivity extends AppCompatActivity {
 
         input = (EditText) findViewById(R.id.input);
         result = (TextView) findViewById(R.id.result);
+        error = (TextView) findViewById(R.id.error_msg);
         rate = 22000;
     }
 
     public void toLbp(View view){
+        input_str = input.getText().toString();
 
-        String amount_str  = input.getText().toString();
 
-        if(amount_str.isEmpty()){
-            Toast.makeText(getApplicationContext(), "Please enter a value", Toast.LENGTH_LONG).show();
+        if(input_str.isEmpty()){
+            error.setVisibility(View.VISIBLE);
         }
         else{
-            amount = Double.parseDouble(amount_str);
-            result_amount = amount*rate;
+            error.setVisibility(View.GONE);
+            input_value = Double.parseDouble(input_str);
+            converted_value = input_value * rate;
+            result.setText("" + converted_value + " LBP");
+        }
+    }
 
-            result.setText(""+result_amount);
+    public void toUsd(View view){
+        input_str = input.getText().toString();
+
+        if(input_str.isEmpty()){
+            error.setVisibility(View.VISIBLE);
+        }
+        else{
+            error.setVisibility(View.GONE);
+            input_value = Double.parseDouble(input_str);
+            converted_value = input_value / rate;
+            result.setText("" + converted_value + " $");
         }
     }
 
