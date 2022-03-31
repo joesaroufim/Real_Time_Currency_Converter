@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
                 String[] rates = syarafa_rate.split("]");
 
-                String[] last_string = rates[rates.length-1].split(",");
+                String[] last_string = rates[rates.length-1].substring(2).split(",");
 
                 last_rate = last_string[1];
 
