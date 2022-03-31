@@ -43,12 +43,13 @@ public class MainActivity extends AppCompatActivity {
                 String line = reader.readLine();
 
                 while( line  != null){
-                    
+
                     result += line;
                     line = reader.readLine();
 
                 }
             }catch(Exception e){
+                Log.i("exeDOin",e.getMessage());
                 return null;
             }
         }
