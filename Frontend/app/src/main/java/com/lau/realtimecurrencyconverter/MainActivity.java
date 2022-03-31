@@ -21,7 +21,7 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
 
     EditText input;
-    TextView result, error;
+    TextView value, error, print;
     double rate, input_value, converted_value;
     String input_str;
     String last_rate = "";
@@ -46,12 +46,13 @@ public class MainActivity extends AppCompatActivity {
 
                     result += line;
                     line = reader.readLine();
-
                 }
+
             }catch(Exception e){
                 Log.i("exeDOin",e.getMessage());
                 return null;
             }
+            return result;
         }
 
         protected void onPostExecute(String s) {
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.i("String", s);
                 JSONObject obj = new JSONObject(s);
-                String syarafa_rate = obj.getString("buy");
+                String syarafa_rate = obj.getString("omt");
 
                 String[] rates = syarafa_rate.split("]");
 
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 last_rate = last_string[1];
 
                 Log.i("Rate", last_rate);
-                view.setText(last_rate);
+                print.setText(last_rate);
 
 
             }catch(Exception e){
@@ -79,17 +80,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         input = (EditText) findViewById(R.id.input);
-        result = (TextView) findViewById(R.id.result);
+        value = (TextView) findViewById(R.id.result);
+        print = (TextView) findViewById(R.id.print);
         error = (TextView) findViewById(R.id.error_msg);
 
-        String url = "https://lirarate.org/wp-json/lirarate/v2/rates?currency=LBP&_ver=t202233113";
+        String url = "https://lirarate.org/wp-json/lirarate/v2/omt?currency=LBP&_ver=t202233122";
 
         DownloadTask task = new DownloadTask();
         task.execute(url);
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             error.setVisibility(View.GONE);
             input_value = Double.parseDouble(input_str);
             converted_value = input_value * rate;
-            result.setText("" + converted_value + " LBP");
+            value.setText("" + converted_value + " LBP");
         }
     }
 
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
             error.setVisibility(View.GONE);
             input_value = Double.parseDouble(input_str);
             converted_value = input_value / rate;
-            result.setText("" + converted_value + " $");
+            value.setText("" + converted_value + " $");
         }
     }
 
