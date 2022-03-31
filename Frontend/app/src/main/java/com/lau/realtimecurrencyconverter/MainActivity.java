@@ -55,7 +55,27 @@ public class MainActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(String s) {
+            super.onPostExecute(s);
 
+            try{
+
+                Log.i("String", s);
+                JSONObject obj = new JSONObject(s);
+                String syarafa_rate = obj.getString("buy");
+
+                String[] rates = syarafa_rate.split("]");
+
+                String[] last_string = rates[rates.length-1].split(",");
+
+                last_rate = last_string[1];
+
+                Log.i("Rate", last_rate);
+                view.setText(last_rate);
+
+
+            }catch(Exception e){
+                Log.i("exeOnPost",e.getMessage());
+            }
         }
     }
 
