@@ -24,11 +24,15 @@ public class MainActivity extends AppCompatActivity {
     TextView result, error;
     double rate, input_value, converted_value;
     String input_str;
-
+    String last_rate = "";
 
     public class DownloadTask extends AsyncTask<String, Void, String> {
 
         protected String doInBackground(String... urls){
+            String result = "";
+            URL url;
+            HttpURLConnection http;
+
             return null;
         }
 
