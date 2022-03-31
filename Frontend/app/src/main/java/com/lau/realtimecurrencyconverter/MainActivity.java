@@ -2,11 +2,21 @@ package com.lau.realtimecurrencyconverter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,6 +24,19 @@ public class MainActivity extends AppCompatActivity {
     TextView result, error;
     double rate, input_value, converted_value;
     String input_str;
+
+
+    public class DownloadTask extends AsyncTask<String, Void, String> {
+
+        protected String doInBackground(String... urls){
+            return null;
+        }
+
+        protected void onPostExecute(String s) {
+
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +46,11 @@ public class MainActivity extends AppCompatActivity {
         input = (EditText) findViewById(R.id.input);
         result = (TextView) findViewById(R.id.result);
         error = (TextView) findViewById(R.id.error_msg);
-        rate = 22000;
+
+        String url = "https://lirarate.org/wp-json/lirarate/v2/rates?currency=LBP&_ver=t202233113";
+
+        DownloadTask task = new DownloadTask();
+        task.execute(url);
     }
 
     public void toLbp(View view){
