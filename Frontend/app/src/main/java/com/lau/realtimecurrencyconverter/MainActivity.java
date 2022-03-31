@@ -33,7 +33,24 @@ public class MainActivity extends AppCompatActivity {
             URL url;
             HttpURLConnection http;
 
-            return null;
+            try{
+                url = new URL(urls[0]);
+                http = (HttpURLConnection) url.openConnection();
+
+                InputStream inputStream = http.getInputStream();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                String line = reader.readLine();
+
+                while( line  != null){
+                    
+                    result += line;
+                    line = reader.readLine();
+
+                }
+            }catch(Exception e){
+                return null;
+            }
         }
 
         protected void onPostExecute(String s) {
