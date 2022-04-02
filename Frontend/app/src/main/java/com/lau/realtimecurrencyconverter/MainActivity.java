@@ -21,7 +21,7 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
 
     EditText input;
-    TextView value, error, print;
+    TextView value, error, print, rate_text;
     double rate, input_value, converted_value;
     String input_str;
     String last_rate = "";
@@ -71,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
                 last_rate = last_string[1];
 
                 Log.i("Rate", last_rate);
-                print.setText(last_rate);
+
+                rate_text.setText(last_rate+" LBP");
 
 
             }catch(Exception e){
@@ -89,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         value = (TextView) findViewById(R.id.result);
         print = (TextView) findViewById(R.id.print);
         error = (TextView) findViewById(R.id.error_msg);
+        rate_text = (TextView) findViewById(R.id.rate);
 
         String url = "https://lirarate.org/wp-json/lirarate/v2/rates?currency=LBP";
 
