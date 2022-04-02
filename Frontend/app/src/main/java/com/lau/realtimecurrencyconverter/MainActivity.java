@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.i("String", s);
                 JSONObject obj = new JSONObject(s);
-                String syarafa_rate = obj.getString("omt");
+                String syarafa_rate = obj.getString("buy");
 
                 String[] rates = syarafa_rate.split("]");
 
@@ -90,13 +90,15 @@ public class MainActivity extends AppCompatActivity {
         print = (TextView) findViewById(R.id.print);
         error = (TextView) findViewById(R.id.error_msg);
 
-        String url = "https://lirarate.org/wp-json/lirarate/v2/omt?currency=LBP&_ver=t202233122";
+        String url = "https://lirarate.org/wp-json/lirarate/v2/rates?currency=LBP";
 
         DownloadTask task = new DownloadTask();
         task.execute(url);
+
     }
 
     public void toLbp(View view){
+        rate = Double.parseDouble(last_rate);
         input_str = input.getText().toString();
 
 
@@ -112,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toUsd(View view){
+        rate = Double.parseDouble(last_rate);
         input_str = input.getText().toString();
 
         if(input_str.isEmpty()){
