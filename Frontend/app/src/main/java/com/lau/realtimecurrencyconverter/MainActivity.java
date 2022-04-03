@@ -115,8 +115,8 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> my_adapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_dropdown_item, conversion_list);
         spinner.setAdapter(my_adapter);
 
-        String url = "https://lirarate.org/wp-json/lirarate/v2/omt?currency=LBP&_ver=t20224213";
-        post_url = "http://192.168.1.139/Mobile%20Computing/Team%20Project/Backend/rates.php";
+        String url = "https://lirarate.org/wp-json/lirarate/v2/rates?currency=LBP&_ver=t20224312";
+        post_url = "http://192.168.0.101/Mobile%20Computing/Team%20Project/Backend/rates.php";
 
 
         DownloadTask task = new DownloadTask();
