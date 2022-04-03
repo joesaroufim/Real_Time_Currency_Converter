@@ -99,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
 
         input = (EditText) findViewById(R.id.input);
         value = (TextView) findViewById(R.id.result);
-        print = (TextView) findViewById(R.id.print);
         error = (TextView) findViewById(R.id.error_msg);
         rate_text = (TextView) findViewById(R.id.rate);
         spinner = (Spinner) findViewById(R.id.spinner);
