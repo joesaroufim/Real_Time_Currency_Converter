@@ -6,7 +6,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     String input_str;
     String last_rate = "";
     DecimalFormat formatter;
+    Spinner spinner;
 
     public class DownloadTask extends AsyncTask<String, Void, String> {
 
@@ -98,12 +102,21 @@ public class MainActivity extends AppCompatActivity {
         print = (TextView) findViewById(R.id.print);
         error = (TextView) findViewById(R.id.error_msg);
         rate_text = (TextView) findViewById(R.id.rate);
+        spinner = (Spinner) findViewById(R.id.spinner);
 
         formatter = new DecimalFormat(".##");
 
+        //Creating arrayList for the Spinner
+        ArrayList<String> conversion_list = new ArrayList<String>();
+        conversion_list.add("LBP to USD");
+        conversion_list.add("USD to LBP");
+
+        //Assigning an adapter and the list as dropdown
+        ArrayAdapter<String> my_adapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_dropdown_item, conversion_list);
+        spinner.setAdapter(my_adapter);
+
         String url = "https://lirarate.org/wp-json/lirarate/v2/omt?currency=LBP&_ver=t20224213";
-        String post_url = "http://10.0.2.2/rates.php";
-        String data = "rami";
+        String post_url = "http://192.168.1.139/Mobile%20Computing/Team%20Project/Backend/rates.php";
 
         DownloadTask task = new DownloadTask();
         task.execute(url);
