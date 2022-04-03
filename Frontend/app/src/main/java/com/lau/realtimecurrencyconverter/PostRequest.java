@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -36,6 +37,7 @@ public class PostRequest extends AsyncTask<String, Void, String> {
             br.flush();
             br.close();
             out.close();
+            InputStream is = urlConnection.getInputStream();
 
             urlConnection.disconnect();
         } catch (MalformedURLException e) {

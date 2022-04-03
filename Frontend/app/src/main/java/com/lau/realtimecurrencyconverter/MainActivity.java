@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         spinner.setAdapter(my_adapter);
 
         String url = "https://lirarate.org/wp-json/lirarate/v2/rates?currency=LBP&_ver=t20224312";
-        post_url = "http://192.168.0.101/Mobile%20Computing/Team%20Project/Backend/rates.php";
+        post_url = "http://192.168.1.139/Mobile%20Computing/Team%20Project/Backend/rates.php";
 
 
         DownloadTask task = new DownloadTask();
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             input_value = Double.parseDouble(input_str);
             switch (conversion_type){
                 case "LBP to USD":
-                    converted_value = input_value/rate;
+                    converted_value = (input_value/rate);
                     lbp = input_str;
                     usd = "" + converted_value;
                     logo.setImageResource(R.drawable.img);
