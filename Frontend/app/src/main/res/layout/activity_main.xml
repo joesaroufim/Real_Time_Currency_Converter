@@ -207,8 +207,8 @@
 
     <ImageView
         android:id="@+id/entered"
-        android:layout_width="48dp"
-        android:layout_height="46dp"
+        android:layout_width="53dp"
+        android:layout_height="49dp"
         android:layout_marginStart="344dp"
         app:layout_constraintBottom_toTopOf="@+id/logo"
         app:layout_constraintStart_toStartOf="parent"

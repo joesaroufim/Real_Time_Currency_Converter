@@ -25,9 +25,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     //Initializing instance Variables
-
     EditText input;
-    TextView value, error, print, rate_text;
+    TextView value, error,rate_text;
     ImageView logo1, logo2;
     double rate,input_value, converted_value;
     String post_url, lbp, usd, input_str,last_rate = "";
@@ -157,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
                     value.setText("" + formatter.format(converted_value) + " LBP");
                     break;
             }
-
             post = new PostRequest();
             post.execute(last_rate, conversion_type, lbp, usd, post_url);
         }
