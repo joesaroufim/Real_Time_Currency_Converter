@@ -8,19 +8,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONObject;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -30,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText input;
     TextView value, error, print, rate_text;
+    ImageView logo;
     double rate, input_value, converted_value;
     String post_url, lbp, usd, input_str,last_rate = "";
     DecimalFormat formatter;
@@ -105,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
 
         formatter = new DecimalFormat(".##");
 
+        logo = (ImageView) findViewById(R.id.logo);
+        logo.setTranslationY(-3000);
+
         //Creating arrayList for the Spinner
         ArrayList<String> conversion_list = new ArrayList<String>();
         conversion_list.add("LBP to USD");
@@ -138,14 +138,17 @@ public class MainActivity extends AppCompatActivity {
                     converted_value = input_value/rate;
                     lbp = input_str;
                     usd = "" + converted_value;
+                    logo.setImageResource(R.drawable.img);
                     break;
                 case "USD to LBP":
                     converted_value = input_value*rate;
                     usd = input_str;
                     lbp = "" + converted_value;
+                    logo.setImageResource(R.drawable.lbp);
                     break;
             }
             value.setText("" + formatter.format(converted_value));
+            logo.animate().translationYBy(3000).rotation(3600).setDuration(600);
             post.execute(last_rate, conversion_type, lbp, usd, post_url);
         }
 
