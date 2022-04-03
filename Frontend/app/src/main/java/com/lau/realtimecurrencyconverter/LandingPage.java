@@ -16,7 +16,8 @@ public class LandingPage extends AppCompatActivity {
     }
 
     public void launch (View view){
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
+        // This method redirect te user to the MainActivity page.
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class); //Creating an Intent object.
+        startActivity(intent); //Calling this method to activate the intent and change page.
     }
 }
