@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.i("String", s);
                 JSONObject obj = new JSONObject(s);
-                String current_rate = obj.getString("omt");
+                String current_rate = obj.getString("buy");
 
                 String[] rates = current_rate.split("]");
 
@@ -81,8 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("Rate", last_rate);
 
                 rate_text.setText(last_rate+" LBP");
-
-
+                rate = Double.parseDouble(last_rate);
             }catch(Exception e){
                 Log.i("exeOnPost",e.getMessage());
             }
@@ -103,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
         formatter = new DecimalFormat(".##");
 
         logo = (ImageView) findViewById(R.id.logo);
-        logo.setTranslationY(-3000);
 
         //Creating arrayList for the Spinner
         ArrayList<String> conversion_list = new ArrayList<String>();
@@ -114,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> my_adapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_dropdown_item, conversion_list);
         spinner.setAdapter(my_adapter);
 
-        String url = "https://lirarate.org/wp-json/lirarate/v2/rates?currency=LBP&_ver=t20224312";
-        post_url = "http://192.168.1.139/Mobile%20Computing/Team%20Project/Backend/rates.php";
+        String url = "https://lirarate.org/wp-json/lirarate/v2/rates?currency=LBP";
+        post_url = "http://192.168.0.101/Mobile%20Computing/Team%20Project/Backend/rates.php";
 
 
         DownloadTask task = new DownloadTask();
@@ -124,8 +122,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void convert(View view){
-//        rate = Double.parseDouble(last_rate);
-        rate = 20000;
+        logo.setTranslationY(-3000);
         String conversion_type = spinner.getSelectedItem().toString();
         input_str = input.getText().toString();
         if(input_str.isEmpty()){
@@ -149,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             }
             value.setText("" + formatter.format(converted_value));
             logo.animate().translationYBy(3000).rotation(3600).setDuration(600);
-            post.execute(last_rate, conversion_type, lbp, usd, post_url);
+           // post.execute(last_rate, conversion_type, lbp, usd, post_url);
         }
 
     }
