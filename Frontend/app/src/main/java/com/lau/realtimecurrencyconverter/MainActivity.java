@@ -70,22 +70,22 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             // This method converts the JSON Object received into a String.
             super.onPostExecute(s);
-            rate_text.setText("1$ = " + last_rate+" LBP");
+            rate_text.setText("1$ = " + last_rate+" LBP"); //Setting the default rate in case pf any error
             try{
 
                 Log.i("String", s);
-                JSONObject obj = new JSONObject(s);
+                JSONObject obj = new JSONObject(s); //Creating a JSON object.
                 String current_rate = obj.getString("buy");
 
                 String[] rates = current_rate.split("]");
 
-                String[] last_string = rates[rates.length-1].substring(2).split(",");
+                String[] last_string = rates[rates.length-1].substring(2).split(","); //Splitting the returned string using comma as delimeter.
 
-                last_rate = last_string[1];
+                last_rate = last_string[1]; //Taking the second index corresponding to the rate.
 
                 Log.i("Rate", last_rate);
 
-                rate_text.setText("1$ = " + last_rate+" LBP");
+                rate_text.setText("1$ = " + last_rate+" LBP"); //Printing the updated rate to the user.
 
 
             }catch(Exception e){
@@ -99,16 +99,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Initializing all views
         input = (EditText) findViewById(R.id.input);
         value = (TextView) findViewById(R.id.result);
         error = (TextView) findViewById(R.id.error_msg);
         rate_text = (TextView) findViewById(R.id.rate);
         spinner = (Spinner) findViewById(R.id.spinner);
-
-        formatter = new DecimalFormat(".##");
-
         logo1 = (ImageView) findViewById(R.id.logo);
         logo2 = (ImageView) findViewById(R.id.entered);
+
+        formatter = new DecimalFormat(".##"); //Initializing DecimalFormat Object.
 
 
         //Creating arrayList for the Spinner
@@ -120,32 +120,39 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> my_adapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_dropdown_item, conversion_list);
         spinner.setAdapter(my_adapter);
 
+        //Storing the urls as Strings
         String url = "https://lirarate.org/wp-json/lirarate/v2/rates?currency=LBP";
         post_url = "http://192.168.1.139/Mobile%20Computing/Team%20Project/Backend/rates.php";
 
-
+        //Calling the execute method to get the rate.
         DownloadTask task = new DownloadTask();
         task.execute(url);
 
     }
 
     public void convert(View view){
+        // This method converts the amount entered by the user with the correct rate and conversion type specified.
+
+        String conversion_type = spinner.getSelectedItem().toString(); //Getting the value of the dropdown list.
+
         rate = Double.parseDouble(last_rate);
-        String conversion_type = spinner.getSelectedItem().toString();
         input_str = input.getText().toString();
+
         if(input_str.isEmpty()){
+            //If the input area is empty, send an error message.
             error.setVisibility(View.VISIBLE);
         }else{
             error.setVisibility(View.GONE);
             input_value = Double.parseDouble(input_str);
             switch (conversion_type){
+                //Take the conversion type specified by the user.
                 case "LBP to USD":
-                    converted_value = (input_value/rate);
+                    converted_value = (input_value/rate); //Perform the conversion.
                     lbp = input_str;
                     usd = "" + converted_value;
-                    logo1.setImageResource(R.drawable.img);
-                    logo2.setImageResource(R.drawable.lbp);
-                    value.setText("" + formatter.format(converted_value) + " USD");
+                    logo1.setImageResource(R.drawable.img); //Insert the required images
+                    logo2.setImageResource(R.drawable.lbp); //based on the conversion type.
+                    value.setText("" + formatter.format(converted_value) + " USD"); //return the converted currency amount.
                     break;
                 case "USD to LBP":
                     converted_value = input_value*rate;
@@ -156,8 +163,8 @@ public class MainActivity extends AppCompatActivity {
                     value.setText("" + formatter.format(converted_value) + " LBP");
                     break;
             }
-            post = new PostRequest();
-            post.execute(last_rate, conversion_type, lbp, usd, post_url);
+            post = new PostRequest(); // Initialize a PostRequest object everytime the user clicks the button.
+            post.execute(last_rate, conversion_type, lbp, usd, post_url); //Calling the method to send data to php.
         }
 
     }
