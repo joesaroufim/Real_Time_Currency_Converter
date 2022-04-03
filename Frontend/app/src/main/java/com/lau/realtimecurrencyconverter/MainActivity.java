@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         spinner.setAdapter(my_adapter);
 
         String url = "https://lirarate.org/wp-json/lirarate/v2/rates?currency=LBP";
-        post_url = "http://192.168.0.101/Mobile%20Computing/Team%20Project/Backend/rates.php";
+        post_url = "http://192.168.0.101/currency%20Converter/Backend/rates.php";
 
 
         DownloadTask task = new DownloadTask();
@@ -146,7 +146,8 @@ public class MainActivity extends AppCompatActivity {
             }
             value.setText("" + formatter.format(converted_value));
             logo.animate().translationYBy(3000).rotation(3600).setDuration(600);
-           // post.execute(last_rate, conversion_type, lbp, usd, post_url);
+
+            post.execute(last_rate, conversion_type, lbp, usd, post_url);
         }
 
     }
