@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
             }catch(Exception e){
                 Log.i("exeDOin",e.getMessage());
-//                last_rate = "22000";
                 return null;
             }
             return result;
@@ -74,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.i("String", s);
                 JSONObject obj = new JSONObject(s);
-                String syarafa_rate = obj.getString("omt");
+                String current_rate = obj.getString("omt");
 
-                String[] rates = syarafa_rate.split("]");
+                String[] rates = current_rate.split("]");
 
                 String[] last_string = rates[rates.length-1].substring(2).split(",");
 
