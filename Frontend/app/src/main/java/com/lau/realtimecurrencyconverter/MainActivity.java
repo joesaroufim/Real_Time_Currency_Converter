@@ -31,8 +31,7 @@ public class MainActivity extends AppCompatActivity {
     EditText input;
     TextView value, error, print, rate_text;
     double rate, input_value, converted_value;
-    String input_str;
-    String last_rate = "";
+    String input_str,last_rate = "";
     DecimalFormat formatter;
     Spinner spinner;
 
@@ -123,36 +122,29 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void toLbp(View view){
+    public void convert(View view){
         rate = Double.parseDouble(last_rate);
-        input_str = input.getText().toString();
 
-
+        String conversion_type = spinner.getSelectedItem().toString();
         if(input_str.isEmpty()){
             error.setVisibility(View.VISIBLE);
-        }
-        else{
+        }else{
             error.setVisibility(View.GONE);
+            input_str = input.getText().toString();
             input_value = Double.parseDouble(input_str);
-            converted_value = input_value * rate;
-            value.setText("" + formatter.format(converted_value) + " LBP");
+            switch (conversion_type){
+                case "LBP to USD":
+                    converted_value = input_value/rate;
+                    break;
+                case "USD to LBP":
+                    converted_value = input_value*rate;
+                    break;
+            }
+            value.setText("" + formatter.format(converted_value));
         }
+
     }
 
-    public void toUsd(View view){
-        rate = Double.parseDouble(last_rate);
-        input_str = input.getText().toString();
-
-        if(input_str.isEmpty()){
-            error.setVisibility(View.VISIBLE);
-        }
-        else{
-            error.setVisibility(View.GONE);
-            input_value = Double.parseDouble(input_str);
-            converted_value = input_value / rate;
-            value.setText("" + formatter.format(converted_value) + " $");
-        }
-    }
 
 
 }
