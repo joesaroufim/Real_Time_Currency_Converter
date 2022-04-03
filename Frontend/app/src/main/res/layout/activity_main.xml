@@ -65,7 +65,7 @@
         android:id="@+id/lbp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#3949AB"
+        android:backgroundTint="#17288C"
         android:onClick="convert"
         android:text="Convert"
         android:textSize="20sp"
