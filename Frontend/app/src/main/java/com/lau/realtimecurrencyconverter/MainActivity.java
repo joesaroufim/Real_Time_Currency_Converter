@@ -24,10 +24,12 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Initializing instance Variables
+
     EditText input;
     TextView value, error, print, rate_text;
-    ImageView logo;
-    double rate, input_value, converted_value;
+    ImageView logo1, logo2;
+    double rate,input_value, converted_value;
     String post_url, lbp, usd, input_str,last_rate = "";
     DecimalFormat formatter;
     Spinner spinner;
@@ -35,37 +37,41 @@ public class MainActivity extends AppCompatActivity {
     PostRequest post = new PostRequest();
 
     public class DownloadTask extends AsyncTask<String, Void, String> {
+        // This class contains methods that enable url connection to an API to retrieve data stored in it.
 
         protected String doInBackground(String... urls){
+            //The method takes String parameter and gets a required data from an external URL API.
             String result = "";
             URL url;
-            HttpURLConnection http;
+            HttpURLConnection http; //Initializing the url connection object
 
             try{
                 url = new URL(urls[0]);
-                http = (HttpURLConnection) url.openConnection();
+                http = (HttpURLConnection) url.openConnection(); //Declaring the Url connection object
 
-                InputStream inputStream = http.getInputStream();
+                InputStream inputStream = http.getInputStream(); //initializing InputStream Object to pass data.
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                String line = reader.readLine();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream)); //Initializing BufferedReader Object to Read data.
+                String line = reader.readLine(); //Get the data ad store it in a String.
 
                 while( line  != null){
 
                     result += line;
-                    line = reader.readLine();
+                    line = reader.readLine(); //Concatenate each line
                 }
 
             }catch(Exception e){
                 Log.i("exeDOin",e.getMessage());
+                last_rate = "23000";
                 return null;
             }
             return result;
         }
 
         protected void onPostExecute(String s) {
+            // This method converts the JSON Object received into a String.
             super.onPostExecute(s);
-
+            rate_text.setText("1$ = " + last_rate+" LBP");
             try{
 
                 Log.i("String", s);
@@ -80,8 +86,9 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.i("Rate", last_rate);
 
-                rate_text.setText(last_rate+" LBP");
-                rate = Double.parseDouble(last_rate);
+                rate_text.setText("1$ = " + last_rate+" LBP");
+
+
             }catch(Exception e){
                 Log.i("exeOnPost",e.getMessage());
             }
@@ -101,7 +108,9 @@ public class MainActivity extends AppCompatActivity {
 
         formatter = new DecimalFormat(".##");
 
-        logo = (ImageView) findViewById(R.id.logo);
+        logo1 = (ImageView) findViewById(R.id.logo);
+        logo2 = (ImageView) findViewById(R.id.entered);
+
 
         //Creating arrayList for the Spinner
         ArrayList<String> conversion_list = new ArrayList<String>();
@@ -113,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         spinner.setAdapter(my_adapter);
 
         String url = "https://lirarate.org/wp-json/lirarate/v2/rates?currency=LBP";
-        post_url = "http://192.168.0.101/currency%20Converter/Backend/rates.php";
+        post_url = "http://192.168.1.139/Mobile%20Computing/Team%20Project/Backend/rates.php";
 
 
         DownloadTask task = new DownloadTask();
@@ -122,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void convert(View view){
-        logo.setTranslationY(-3000);
+        rate = Double.parseDouble(last_rate);
         String conversion_type = spinner.getSelectedItem().toString();
         input_str = input.getText().toString();
         if(input_str.isEmpty()){
@@ -135,18 +144,21 @@ public class MainActivity extends AppCompatActivity {
                     converted_value = (input_value/rate);
                     lbp = input_str;
                     usd = "" + converted_value;
-                    logo.setImageResource(R.drawable.img);
+                    logo1.setImageResource(R.drawable.img);
+                    logo2.setImageResource(R.drawable.lbp);
+                    value.setText("" + formatter.format(converted_value) + " USD");
                     break;
                 case "USD to LBP":
                     converted_value = input_value*rate;
                     usd = input_str;
                     lbp = "" + converted_value;
-                    logo.setImageResource(R.drawable.lbp);
+                    logo1.setImageResource(R.drawable.lbp);
+                    logo2.setImageResource(R.drawable.img);
+                    value.setText("" + formatter.format(converted_value) + " LBP");
                     break;
             }
-            value.setText("" + formatter.format(converted_value));
-            logo.animate().translationYBy(3000).rotation(3600).setDuration(600);
 
+            post = new PostRequest();
             post.execute(last_rate, conversion_type, lbp, usd, post_url);
         }
 
