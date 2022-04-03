@@ -13,12 +13,12 @@ import java.net.URLEncoder;
 
 public class PostRequest extends AsyncTask<String, Void, String> {
 
-    String result;
-
     @Override
     protected String doInBackground(String... params) {
-        String data = params[0];
-        String str_url = params[1];
+        String rate = params[0];
+        String currency = params[1];
+        String amount = params[2];
+        String str_url = params[3];
         try {
             URL url = new URL(str_url);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -27,14 +27,15 @@ public class PostRequest extends AsyncTask<String, Void, String> {
             urlConnection.setDoOutput(true);
             OutputStream out = urlConnection.getOutputStream();
             BufferedWriter br = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
-            String post_data = URLEncoder.encode("data", "UTF-8")+"="+URLEncoder.encode(data, "UTF-8");
+            String post_data = URLEncoder.encode("rate", "UTF-8")+"="+URLEncoder.encode(rate, "UTF-8")+"&"
+                    +URLEncoder.encode("currency", "UTF-8")+"="+URLEncoder.encode(currency, "UTF-8")+"&"
+                    +URLEncoder.encode("amount", "UTF-8")+"="+URLEncoder.encode(amount, "UTF-8");
             br.write(post_data);
             br.flush();
             br.close();
             out.close();
 
             urlConnection.disconnect();
-            return result;
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -43,5 +44,18 @@ public class PostRequest extends AsyncTask<String, Void, String> {
         return null;
     }
 
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+    }
 
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+    }
+
+    @Override
+    protected void onProgressUpdate(Void... values) {
+        super.onProgressUpdate(values);
+    }
 }
