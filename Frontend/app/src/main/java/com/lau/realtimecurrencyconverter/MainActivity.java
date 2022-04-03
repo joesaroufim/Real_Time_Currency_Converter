@@ -12,11 +12,16 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     double rate, input_value, converted_value;
     String input_str;
     String last_rate = "";
+    DecimalFormat formatter;
 
     public class DownloadTask extends AsyncTask<String, Void, String> {
 
@@ -50,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
             }catch(Exception e){
                 Log.i("exeDOin",e.getMessage());
+//                last_rate = "22000";
                 return null;
             }
             return result;
@@ -62,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.i("String", s);
                 JSONObject obj = new JSONObject(s);
-                String syarafa_rate = obj.getString("buy");
+                String syarafa_rate = obj.getString("omt");
 
                 String[] rates = syarafa_rate.split("]");
 
@@ -92,7 +99,11 @@ public class MainActivity extends AppCompatActivity {
         error = (TextView) findViewById(R.id.error_msg);
         rate_text = (TextView) findViewById(R.id.rate);
 
-        String url = "https://lirarate.org/wp-json/lirarate/v2/rates?currency=LBP";
+        formatter = new DecimalFormat(".##");
+
+        String url = "https://lirarate.org/wp-json/lirarate/v2/omt?currency=LBP&_ver=t20224213";
+        String post_url = "http://10.0.2.2/rates.php";
+        String data = "rami";
 
         DownloadTask task = new DownloadTask();
         task.execute(url);
@@ -111,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
             error.setVisibility(View.GONE);
             input_value = Double.parseDouble(input_str);
             converted_value = input_value * rate;
-            value.setText("" + converted_value + " LBP");
+            value.setText("" + formatter.format(converted_value) + " LBP");
         }
     }
 
@@ -126,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             error.setVisibility(View.GONE);
             input_value = Double.parseDouble(input_str);
             converted_value = input_value / rate;
-            value.setText("" + converted_value + " $");
+            value.setText("" + formatter.format(converted_value) + " $");
         }
     }
 
