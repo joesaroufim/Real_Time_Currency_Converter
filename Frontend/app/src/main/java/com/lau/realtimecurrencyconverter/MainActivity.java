@@ -121,6 +121,12 @@ public class MainActivity extends AppCompatActivity {
         String url = "https://lirarate.org/wp-json/lirarate/v2/rates?currency=LBP";
         post_url = "http://192.168.1.139/Mobile%20Computing/Team%20Project/Backend/rates.php";
 
+        /* Multiple urls can be used if anyone is blocked:
+        1- https://lirarate.org/wp-json/lirarate/v2/rates?currency=LBP     Use "buy" as name in the getString() method (line 77)
+        2- https://lirarate.org/wp-json/lirarate/v2/sayrafa?currency=LBP   Use "sayrafa" as name in the getString() method (line 77)
+        3- https://lirarate.org/wp-json/lirarate/v2/omt?currency=LBP       Use "omt" as name in the getString() method (line 77)
+         */
+
         //Calling the execute method to get the rate.
         DownloadTask task = new DownloadTask();
         task.execute(url);
