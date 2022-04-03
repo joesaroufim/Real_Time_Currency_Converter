@@ -31,9 +31,11 @@ public class MainActivity extends AppCompatActivity {
     EditText input;
     TextView value, error, print, rate_text;
     double rate, input_value, converted_value;
-    String input_str,last_rate = "";
+    String post_url, lbp, usd, input_str,last_rate = "";
     DecimalFormat formatter;
     Spinner spinner;
+
+    PostRequest post = new PostRequest();
 
     public class DownloadTask extends AsyncTask<String, Void, String> {
 
@@ -115,7 +117,8 @@ public class MainActivity extends AppCompatActivity {
         spinner.setAdapter(my_adapter);
 
         String url = "https://lirarate.org/wp-json/lirarate/v2/omt?currency=LBP&_ver=t20224213";
-        String post_url = "http://192.168.1.139/Mobile%20Computing/Team%20Project/Backend/rates.php";
+        post_url = "http://192.168.1.139/Mobile%20Computing/Team%20Project/Backend/rates.php";
+
 
         DownloadTask task = new DownloadTask();
         task.execute(url);
@@ -123,24 +126,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void convert(View view){
-        rate = Double.parseDouble(last_rate);
-
+//        rate = Double.parseDouble(last_rate);
+        rate = 20000;
         String conversion_type = spinner.getSelectedItem().toString();
+        input_str = input.getText().toString();
         if(input_str.isEmpty()){
             error.setVisibility(View.VISIBLE);
         }else{
             error.setVisibility(View.GONE);
-            input_str = input.getText().toString();
             input_value = Double.parseDouble(input_str);
             switch (conversion_type){
                 case "LBP to USD":
                     converted_value = input_value/rate;
+                    lbp = input_str;
+                    usd = "" + converted_value;
                     break;
                 case "USD to LBP":
                     converted_value = input_value*rate;
+                    usd = input_str;
+                    lbp = "" + converted_value;
                     break;
             }
             value.setText("" + formatter.format(converted_value));
+            post.execute(last_rate, conversion_type, lbp, usd, post_url);
         }
 
     }
