@@ -27,19 +27,25 @@ public class PostRequest extends AsyncTask<String, Void, String> {
             urlConnection.setRequestMethod("POST");
             urlConnection.setDoInput(true);
             urlConnection.setDoOutput(true);
+
             OutputStream out = urlConnection.getOutputStream();
+
             BufferedWriter br = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
+
             String post_data = URLEncoder.encode("rate", "UTF-8")+"="+URLEncoder.encode(rate, "UTF-8")+"&"
                     +URLEncoder.encode("conversion", "UTF-8")+"="+URLEncoder.encode(conversion_type, "UTF-8")+"&"
                     +URLEncoder.encode("lbp", "UTF-8")+"="+URLEncoder.encode(lbp, "UTF-8")+"&"
                     +URLEncoder.encode("usd", "UTF-8")+"="+URLEncoder.encode(usd, "UTF-8");
+
             br.write(post_data);
             br.flush();
             br.close();
             out.close();
+
             InputStream is = urlConnection.getInputStream();
 
             urlConnection.disconnect();
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {

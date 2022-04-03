@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
                 String line = reader.readLine(); //Get the data ad store it in a String.
 
                 while( line  != null){
-
                     result += line;
                     line = reader.readLine(); //Concatenate each line
                 }
@@ -78,9 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 String current_rate = obj.getString("buy");
 
                 String[] rates = current_rate.split("]");
-
                 String[] last_string = rates[rates.length-1].substring(2).split(","); //Splitting the returned string using comma as delimeter.
-
                 last_rate = last_string[1]; //Taking the second index corresponding to the rate.
 
                 Log.i("Rate", last_rate);
